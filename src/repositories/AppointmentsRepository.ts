@@ -1,6 +1,6 @@
-import {isEqual} from "date-fns";
+import { isEqual } from "date-fns";
 import Appointment from "../models/appointment.model";
-import {EntityRepository, Repository} from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
 
 interface CreateAppointmentDto {
     provider: string;

@@ -1,25 +1,25 @@
-import {response, Router} from 'express';
-import {parseISO} from 'date-fns';
+import { Router } from 'express';
 
-import AppointmentsRepository from '../repositories/AppointmentsRepository';
-import CreateAppointmentService from "../services/Appointments/CreateAppointmentService";
-import {getCustomRepository} from "typeorm";
 import CreateUsersService from "../services/User/CreateUsersService";
 
 const usersRouter = Router();
 
 usersRouter.post('/', async (req, res) => {
-   try {
-       const {name, email, password} = req.body;
+    try {
+        const { name, email, password } = req.body;
 
-       const userService =  new CreateUsersService();
+        const userService = new CreateUsersService();
 
-       const user = await userService.execute({ name, email, password })
+        const user = await userService.execute({ name, email, password })
 
-       return res.json(user);
-   } catch(err) {
-       return response.status(400).json(err.message);
-   }
+        const removeKey = (key: string, { [key]: _, ...rest }) => rest;
+
+        const userWithoutPassword = removeKey('password', user);
+
+        return res.json(userWithoutPassword);
+    } catch (err) {
+        return res.status(400).json(err.message);
+    }
 });
 
 

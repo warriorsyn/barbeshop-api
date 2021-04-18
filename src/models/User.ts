@@ -1,6 +1,6 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn} from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('appointments')
+@Entity('users')
 class User {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
