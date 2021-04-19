@@ -13,38 +13,31 @@ const upload = multer(uploadConfig);
 const removeKey = (key: string, { [key]: _, ...rest }) => rest;
 
 usersRouter.post('/', async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
 
-        const userService = new CreateUsersService();
+    const { name, email, password } = req.body;
 
-        const user = await userService.execute({ name, email, password })
+    const userService = new CreateUsersService();
 
-        const userWithoutPassword = removeKey('password', user);
+    const user = await userService.execute({ name, email, password })
 
-        return res.json(userWithoutPassword);
-    } catch (err) {
-        return res.status(400).json(err.message);
-    }
+    const userWithoutPassword = removeKey('password', user);
+
+    return res.json(userWithoutPassword);
 });
 
 
 usersRouter.patch('/avatar', ensureAuthenticated, upload.single('file'), async (req, res) => {
 
-    try {
-        const updateUserAvatarService = new UpdateUserAvatarService();
+    const updateUserAvatarService = new UpdateUserAvatarService();
 
-        const user = await updateUserAvatarService.execute({
-            user_id: req.user.id,
-            avatarFilename: req.file.filename
-        });
+    const user = await updateUserAvatarService.execute({
+        user_id: req.user.id,
+        avatarFilename: req.file.filename
+    });
 
-        const userWithoutPassword = removeKey('password', user);
+    const userWithoutPassword = removeKey('password', user);
 
-        return res.json(userWithoutPassword);
-    } catch (err) {
-        return res.status(400).json(err.message)
-    }
+    return res.json(userWithoutPassword);
 });
 
 

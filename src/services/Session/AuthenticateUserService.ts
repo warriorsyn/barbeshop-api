@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import { sign } from 'jsonwebtoken';
 import User from "../../models/User";
 import auth from "../../config/auth";
+import AppError from "../../errors/AppError";
 
 interface Request {
     email: string;
@@ -21,13 +22,13 @@ class AuthenticateUserService {
         const user = await usersRepository.findOne({ where: { email } });
 
         if (!user) {
-            throw new Error("Email or password incorrect!");
+            throw new AppError("Email or password incorrect!", 401, 'user.unauthorized');
         }
 
         const comparePassword = await compare(password, user.password);
 
         if (!comparePassword) {
-            throw new Error("Email or password incorrect!");
+            throw new AppError("Email or password incorrect!", 401, 'user.unauthorized');
         }
 
         const token = sign({ email: user.email, name: user.name }, auth.jwt.secret, {
