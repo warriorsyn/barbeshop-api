@@ -14,6 +14,9 @@ class User {
     @Column('varchar')
     public password: string;
 
+    @Column('varchar')
+    public avatar: string;
+
     @CreateDateColumn()
     public created_at: Date;
 
