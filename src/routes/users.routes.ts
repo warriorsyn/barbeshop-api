@@ -28,6 +28,7 @@ usersRouter.post('/', async (req, res) => {
     }
 });
 
+
 usersRouter.patch('/avatar', ensureAuthenticated, upload.single('file'), async (req, res) => {
 
     try {
